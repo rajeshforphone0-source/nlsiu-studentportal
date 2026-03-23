@@ -44,8 +44,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 }
 .hero::before{content:'';position:absolute;right:320px;top:-60px;width:260px;height:260px;border:1px solid rgba(255,255,255,.06);border-radius:50%;pointer-events:none}
 .hero::after{content:'';position:absolute;right:260px;top:-100px;width:380px;height:380px;border:1px solid rgba(255,255,255,.03);border-radius:50%;pointer-events:none}
-.hero-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;width:100%;padding:0 2rem}
-.hero-left{padding:1.6rem 0;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(255,255,255,.1);max-width:1160px}
+.hero-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;width:100%;padding:0 2.5rem}
+.hero-left{padding:1.6rem 0 1.6rem 0;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(255,255,255,.1);max-width:1160px}
 .hero-eyebrow{font-size:.6rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.35rem}
 .hero-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500;color:#fff;line-height:1.15}
 .hero-heading em{font-style:italic;font-weight:400;color:rgba(255,255,255,.82)}
@@ -321,7 +321,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   display:flex; flex-direction:column;
   align-items:center; justify-content:center;
   gap:0;
-  transition:opacity .6s ease, visibility .6s ease;
+  transition:opacity .4s ease, visibility .4s ease;
 }
 #splash.fade-out { opacity:0; visibility:hidden; pointer-events:none; }
 
@@ -337,7 +337,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #splash-logo {
   width:52px; height:72px;
   opacity:0;
-  animation: splashLogoIn .6s .2s ease forwards;
+  animation: splashLogoIn .4s .1s ease forwards;
   margin-bottom:2rem;
   flex-shrink:0;
 }
@@ -380,7 +380,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   color:rgba(255,255,255,.32);
   margin-top:.9rem;
   opacity:0;
-  animation: splashTagIn .5s 1.8s ease forwards;
+  animation: splashTagIn .35s 1s ease forwards;
 }
 @keyframes splashTagIn {
   from{opacity:0;} to{opacity:1;}
@@ -693,6 +693,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   text-align:center;
 }
 
+
+#cal-status-dot.synced{background:#6b9e6b;opacity:.8}
+#cal-status-dot.error{background:var(--accent);opacity:.8}
+
 </style>
 </head>
 <body>
@@ -752,7 +756,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
           <div class="hero-tl-title">Today's Schedule</div>
           <div class="hero-tl-date" id="hero-tl-date"></div>
         </div>
-        <button id="hero-cal-btn" onclick="handleCalAction()">Connect</button>
+        <button id="hero-cal-btn" onclick="handleCalAction()" style="display:none">Connect</button>
       </div>
       <div class="hero-events-scroll" id="hero-events-area">
         <div id="hero-setup" class="hero-setup">
@@ -906,6 +910,14 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       </div>
     </div>
 
+    <!-- Calendar sync status footer -->
+    <div id="cal-status-footer" style="display:none;padding:.6rem 0;margin-top:.5rem">
+      <div style="display:flex;align-items:center;gap:.5rem;font-size:.62rem;color:var(--ink-3);font-family:'JetBrains Mono',monospace;letter-spacing:.04em">
+        <span id="cal-status-dot" style="width:5px;height:5px;border-radius:50%;background:var(--ink-3);flex-shrink:0;opacity:.5"></span>
+        <span id="cal-status-text">Calendar synced</span>
+        <button id="cal-disconnect-btn" onclick="calDisconnect()" style="margin-left:.5rem;background:none;border:none;cursor:pointer;font-size:.6rem;color:var(--ink-3);font-family:'Outfit',sans-serif;opacity:.6;padding:0;transition:opacity .15s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=.6">Disconnect</button>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -1384,12 +1396,30 @@ window.addEventListener('load', async ()=>{
 });
 
 function onAuthSuccess() {
-  const btn = document.getElementById('hero-cal-btn');
-  if(btn){ btn.textContent='✓ Synced'; btn.style.color='#86efac'; }
   const e1=document.getElementById('hero-setup');   if(e1) e1.style.display='none';
   const e2=document.getElementById('hero-events-list'); if(e2) e2.style.display='block';
   const e3=document.getElementById('tl-setup-card'); if(e3) e3.style.display='none';
+  const footer=document.getElementById('cal-status-footer');
+  if(footer){ footer.style.display='block'; }
+  const dot=document.getElementById('cal-status-dot');
+  if(dot){ dot.className='synced'; }
+  const txt=document.getElementById('cal-status-text');
+  if(txt){ txt.textContent='Calendar synced'; }
   showCourseSpinners(); fetchEvents(); fetchUpcoming();
+}
+
+function calDisconnect(){
+  clearToken();
+  accessToken=null;
+  const footer=document.getElementById('cal-status-footer');
+  if(footer) footer.style.display='none';
+  const e1=document.getElementById('hero-setup'); if(e1) e1.style.display='block';
+  const e2=document.getElementById('hero-events-list'); if(e2) e2.style.display='none';
+  const e3=document.getElementById('tl-setup-card'); if(e3) e3.style.display='block';
+  const list=document.getElementById('up-list-wrap');
+  if(list) list.innerHTML='<div class="up-empty">Connect calendar to see upcoming events.</div>';
+  const wrap=document.getElementById('upcoming-section-wrap');
+  if(wrap) wrap.style.display='none';
 }
 
 /* ── SPLASH ── */
@@ -1402,8 +1432,8 @@ function onAuthSuccess() {
   const TEXT    = 'Welcome';
   let i = 0;
 
-  // If a valid token is already cached, skip auth panel entirely
-  const hasCached = !!loadToken();
+  // Skip auth panel if already authenticated (valid token OR refresh token available)
+  const hasCached = !!(loadToken() || loadRefreshToken());
   // Pre-fill CID if saved
   const savedCid = localStorage.getItem('nlsiu_cid') || '';
   if(cidEl && savedCid) cidEl.value = savedCid;
@@ -1411,30 +1441,30 @@ function onAuthSuccess() {
   function dismissSplash() {
     cursor.style.display = 'none';
     splash.classList.add('fade-out');
-    setTimeout(() => { splash.remove(); }, 650);
+    setTimeout(() => { splash.remove(); }, 420);
   }
 
   setTimeout(function type(){
     if(i <= TEXT.length){
       word.textContent = TEXT.slice(0, i);
       i++;
-      setTimeout(type, i === 1 ? 80 : 90 + Math.random()*40);
+      setTimeout(type, i === 1 ? 50 : 55 + Math.random()*25);
     } else {
       // Typewriter done
-      setTimeout(() => { cursor.style.display = 'none'; }, 500);
+      setTimeout(() => { cursor.style.display = 'none'; }, 300);
 
       if(hasCached) {
         // Token cached — skip straight through
-        setTimeout(dismissSplash, 700);
+        setTimeout(dismissSplash, 350);
       } else {
         // Show auth panel
         setTimeout(() => {
           authEl.style.display = 'flex';
           // If CID already saved, show connect button ready
-        }, 600);
+        }, 350);
       }
     }
-  }, 700);
+  }, 400);
 
   // Expose dismiss so splashSkip can call it
   window._dismissSplash = dismissSplash;
