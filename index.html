@@ -32,12 +32,47 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 /* PAGE */
 .page{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:2rem 2rem 5rem;display:grid;grid-template-columns:1fr 340px;grid-template-areas:"courses main-right" "portals main-right" "resources main-right";gap:1.25rem;align-items:start}
 
+/* ── PAGE REVEAL after splash ── */
+.hero,
+.courses-section,
+.portals-section,
+.resources-section,
+.main-right {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .35s ease, transform .35s ease;
+}
+body.page-revealed .hero {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+body.page-revealed .courses-section {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.06s;
+}
+body.page-revealed .portals-section {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.1s;
+}
+body.page-revealed .resources-section {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.14s;
+}
+body.page-revealed .main-right {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.08s;
+}
+
 /* HERO — full-width header */
 .hero{
   background:var(--accent);
   position:relative;
   overflow:hidden;
-  animation:fadeUp .4s ease both;
   border-bottom:1px solid rgba(0,0,0,.12);
 }
 .hero::before{content:'';position:absolute;right:320px;top:-60px;width:260px;height:260px;border:1px solid rgba(255,255,255,.06);border-radius:50%;pointer-events:none}
@@ -84,8 +119,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .sect-label::before{content:'';width:16px;height:1px;background:var(--accent)}
 
 /* PORTALS */
-.portals-section{grid-area:portals;animation:fadeUp .5s .2s ease both}
-.resources-section{grid-area:resources;animation:fadeUp .5s .25s ease both}
+.portals-section{grid-area:portals}
+.resources-section{grid-area:resources}
 .portals-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
 .card{background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);box-shadow:var(--shadow-sm);text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:.9rem;padding:1rem 1.15rem;transition:box-shadow .2s,border-color .2s,transform .2s;position:relative;overflow:hidden}
 .card:hover{border-color:rgba(124,29,29,.25);box-shadow:var(--shadow-md);transform:translateY(-2px)}
@@ -124,7 +159,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .rcc-btn:hover .rcc-arrow{color:var(--accent)}
 
 /* COURSES */
-.courses-section{grid-area:courses;animation:fadeUp .5s .1s ease both}
+.courses-section{grid-area:courses}
 .courses-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
 .course-card{border:1px solid #2e2a26;border-radius:var(--r);box-shadow:0 2px 12px rgba(0,0,0,.25);text-decoration:none;color:#f5f2ed;padding:1.2rem 1.25rem 1rem;display:flex;flex-direction:column;gap:.4rem;transition:box-shadow .2s,border-color .2s,transform .2s;position:relative;overflow:hidden;cursor:pointer}
 .course-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,rgba(255,255,255,.25) 0%,rgba(255,255,255,.08) 100%);transform:scaleX(0);transform-origin:left;transition:transform .3s ease}
@@ -261,22 +296,21 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   .page{
     grid-template-columns:1fr;
     grid-template-areas:"hero" "portals" "main-right";
-    padding:1.25rem 1rem 4rem;
+    padding:1.25rem 1.25rem 4rem;
     gap:1rem;
   }
 
   /* Hide courses and resources in vertical */
   .courses-section, .resources-section{ display:none; }
-  .hero-inner{ grid-template-columns:1fr; }
 
   /* Hero: show only greeting, hide schedule panel */
   .hero{ min-height:auto; }
-  .hero-inner{ grid-template-columns:1fr; padding:0 1.5rem; }
+  .hero-inner{ grid-template-columns:1fr; padding:0 1.25rem; }
   .hero-right{ display:none; }
   .hero-left{
     border-right:none;
     border-bottom:1px solid rgba(255,255,255,.1);
-    padding:1.2rem 1.5rem;
+    padding:1.25rem 0;
   }
   .hero-heading{font-size:1.8rem}
 
@@ -294,10 +328,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 /* ── RESPONSIVE: small phones ── */
 @media(max-width:480px){
-  .page{padding:1rem .85rem 3.5rem;gap:.85rem}
-  .hero-left{padding:1.2rem 1.2rem 1rem}
+  .page{padding:1rem 1rem 3.5rem;gap:.85rem}
+  .hero-inner{padding:0 1rem}
+  .hero-left{padding:1rem 0}
   .hero-heading{font-size:1.5rem}
-  .hero-right{padding:.9rem 1.2rem 1rem}
   .card{padding:.85rem 1rem}
   .course-card{padding:.9rem 1rem .8rem}
   .rcc-btn{padding:.75rem 1rem}
@@ -306,9 +340,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 /* ── RESPONSIVE: landscape phones (short + wide) ── */
 @media(max-height:500px) and (max-width:900px){
   .hero{min-height:auto}
-  .hero-left{padding:1rem 1.5rem}
+  .hero-inner{padding:0 1.5rem}
+  .hero-left{padding:1rem 0}
   .hero-heading{font-size:1.6rem}
-  .hero-right{max-height:160px}
+  .hero-right{max-height:160px;padding:1rem 0 1rem 1.5rem}
+  .page{padding:1.25rem 1.5rem 3rem}
 }
 
 /* ── SPLASH ── */
@@ -741,9 +777,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       <circle cx="-60" cy="760" r="220" fill="none" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
       <!-- centre horizontal hairline -->
       <line x1="0" y1="350" x2="1000" y2="350" stroke="rgba(255,255,255,.04)" stroke-width="1"/>
-      <!-- small cross mark -->
-      <line x1="497" y1="330" x2="503" y2="330" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
-      <line x1="500" y1="327" x2="500" y2="333" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
     </svg>
   </div>
 
@@ -1478,8 +1511,8 @@ function calDisconnect(){
   const TEXT    = 'Welcome';
   let i = 0;
 
-  // Skip auth panel if already authenticated (valid token OR refresh token available)
-  const hasCached = !!(loadToken() || loadRefreshToken());
+  // Skip auth panel if already authenticated OR if calendar was previously configured
+  const hasCached = !!(loadToken() || loadRefreshToken() || localStorage.getItem('nlsiu_cid'));
   // Pre-fill CID if saved
   const savedCid = localStorage.getItem('nlsiu_cid') || '';
   if(cidEl && savedCid) cidEl.value = savedCid;
@@ -1487,6 +1520,7 @@ function calDisconnect(){
   function dismissSplash() {
     cursor.style.display = 'none';
     splash.classList.add('fade-out');
+    document.body.classList.add('page-revealed');
     setTimeout(() => { splash.remove(); }, 420);
   }
 
