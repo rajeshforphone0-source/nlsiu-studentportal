@@ -35,8 +35,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 /* HERO — full-width header */
 .hero{
   background:var(--accent);
-  display:grid;
-  grid-template-columns:1fr 1fr;
   position:relative;
   overflow:hidden;
   animation:fadeUp .4s ease both;
@@ -44,8 +42,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 }
 .hero::before{content:'';position:absolute;right:320px;top:-60px;width:260px;height:260px;border:1px solid rgba(255,255,255,.06);border-radius:50%;pointer-events:none}
 .hero::after{content:'';position:absolute;right:260px;top:-100px;width:380px;height:380px;border:1px solid rgba(255,255,255,.03);border-radius:50%;pointer-events:none}
-.hero-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;width:100%;padding:0 2.5rem}
-.hero-left{padding:1.6rem 0 1.6rem 0;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(255,255,255,.1);max-width:1160px}
+.hero-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;width:100%;padding:0 2rem;box-sizing:border-box}
+.hero-left{padding:1.6rem 0 1.6rem 0;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(255,255,255,.1)}
 .hero-eyebrow{font-size:.6rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.35rem}
 .hero-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500;color:#fff;line-height:1.15}
 .hero-heading em{font-style:italic;font-weight:400;color:rgba(255,255,255,.82)}
@@ -269,12 +267,11 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
   /* Hide courses and resources in vertical */
   .courses-section, .resources-section{ display:none; }
+  .hero-inner{ grid-template-columns:1fr; }
 
   /* Hero: show only greeting, hide schedule panel */
-  .hero{
-    grid-template-columns:1fr;
-    min-height:auto;
-  }
+  .hero{ min-height:auto; }
+  .hero-inner{ grid-template-columns:1fr; padding:0 1.5rem; }
   .hero-right{ display:none; }
   .hero-left{
     border-right:none;
@@ -746,6 +743,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 <!-- HERO -->
   <div class="hero">
+    <div class="hero-inner">
     <div class="hero-left">
       <div class="hero-eyebrow" id="greeting">Good evening</div>
       <div class="hero-heading">Welcome back,<br><em>Aravind.</em></div>
@@ -1523,8 +1521,8 @@ async function splashConnect() {
 const TOKEN_KEY   = 'nlsiu_gtoken';
 const EXPIRY_KEY  = 'nlsiu_gexpiry';
 const REFRESH_KEY = 'nlsiu_grefresh';
-const AUTH_FN     = '/.netlify/functions/auth';
-const REDIRECT_URI = 'https://nlsiuportal.netlify.app';
+const AUTH_FN     = '/api/auth';
+const REDIRECT_URI = 'https://nlsiustudent.vercel.app';
 
 // PKCE helpers
 function base64url(buf){
