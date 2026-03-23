@@ -730,6 +730,48 @@ body.page-revealed .main-right {
 #cal-status-dot.synced{background:#6b9e6b;opacity:.8}
 #cal-status-dot.error{background:var(--accent);opacity:.8}
 
+/* ── MESS MEAL CARD ── */
+#mess-meal-card{
+  background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);
+  box-shadow:var(--shadow-sm);overflow:hidden;cursor:pointer;
+  transition:box-shadow .2s,border-color .2s,transform .2s;
+}
+#mess-meal-card:hover{border-color:rgba(124,29,29,.22);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.mm-header{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem .5rem}
+.mm-header-left{display:flex;align-items:center;gap:.55rem}
+.mm-icon-wrap{width:30px;height:30px;border-radius:8px;background:rgba(124,29,29,.07);border:1px solid rgba(124,29,29,.14);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent)}
+.mm-icon-wrap svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mm-meal-name{font-size:.82rem;font-weight:500;color:var(--ink);line-height:1.2}
+.mm-time-badge{display:inline-flex;align-items:center;gap:.25rem;font-family:"JetBrains Mono",monospace;font-size:.55rem;color:var(--ink-3);margin-top:.18rem;letter-spacing:.03em}
+.mm-arrow{font-size:.65rem;color:var(--rule);transition:color .2s,transform .2s;flex-shrink:0}
+#mess-meal-card:hover .mm-arrow{color:var(--accent);transform:translateX(2px)}
+.mm-preview{padding:.1rem 1rem .8rem;display:flex;flex-wrap:wrap;gap:.3rem}
+.mm-chip{font-size:.62rem;color:var(--ink-2);background:var(--bg);border:1px solid var(--rule);border-radius:20px;padding:.18rem .55rem;font-weight:400;white-space:nowrap}
+.mm-chip.more{color:var(--ink-3);font-style:italic}
+.mm-divider{height:1px;background:var(--rule);margin:0 1rem}
+.mm-countdown{padding:.45rem 1rem;font-size:.62rem;font-family:"JetBrains Mono",monospace;color:var(--ink-3);letter-spacing:.04em;display:flex;align-items:center;gap:.4rem}
+.mm-countdown-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0}
+.mm-countdown-dot.live{background:#6b9e6b;animation:blink 1.4s infinite}
+
+/* ── MESS MODAL ── */
+.mess-modal-box{max-width:500px}
+.mess-modal-meal{margin-bottom:1.1rem}
+.mess-modal-meal:last-child{margin-bottom:0}
+.mm-modal-meal-header{display:flex;align-items:center;gap:.6rem;padding:.6rem .9rem;background:var(--bg);border-radius:9px;margin-bottom:.55rem;border:1px solid var(--rule)}
+.mm-modal-meal-icon{width:28px;height:28px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--accent);background:rgba(124,29,29,.07);border:1px solid rgba(124,29,29,.12)}
+.mm-modal-meal-icon svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mm-modal-meal-info{flex:1}
+.mm-modal-meal-name{font-size:.85rem;font-weight:500;color:var(--ink)}
+.mm-modal-meal-time{font-family:"JetBrains Mono",monospace;font-size:.56rem;color:var(--ink-3);margin-top:.1rem;letter-spacing:.04em}
+.mm-modal-meal-label{font-size:.5rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:.12rem .4rem;border-radius:20px;flex-shrink:0;background:rgba(124,29,29,.08);color:var(--accent)}
+.mm-modal-meal-label.next{background:rgba(146,116,26,.1);color:var(--gold)}
+.mm-sections{display:flex;flex-direction:column;gap:.35rem;padding:0 .1rem}
+.mm-section-row{display:flex;gap:.6rem;align-items:flex-start}
+.mm-section-label{font-size:.56rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);min-width:68px;flex-shrink:0;padding-top:.12rem;opacity:.75}
+.mm-section-items{font-size:.75rem;color:var(--ink-2);line-height:1.55;font-weight:300}
+.mm-section-items strong{font-weight:500;color:var(--ink)}
+.mm-modal-sep{height:1px;background:var(--rule);margin:.75rem 0}
+
 
 /* hero logo */
 .hero-logo-wrap{
@@ -963,6 +1005,29 @@ body.page-revealed .main-right {
         </div>
       </div>
     </div>
+    <!-- MESS MEAL CARD -->
+    <div class="sect-label">Mess</div>
+    <div id="mess-meal-card" onclick="openMessModal()">
+      <div class="mm-header">
+        <div class="mm-header-left">
+          <div class="mm-icon-wrap">
+            <svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <div>
+            <div class="mm-meal-name" id="mm-meal-name">—</div>
+            <div class="mm-time-badge" id="mm-time-badge">—</div>
+          </div>
+        </div>
+        <span class="mm-arrow">→</span>
+      </div>
+      <div class="mm-preview" id="mm-preview"></div>
+      <div class="mm-divider"></div>
+      <div class="mm-countdown" id="mm-countdown">
+        <span class="mm-countdown-dot" id="mm-countdown-dot"></span>
+        <span id="mm-countdown-text">—</span>
+      </div>
+    </div>
+
     <!-- UPCOMING SECTION -->
     <div id="upcoming-section-wrap" style="display:none">
       <div class="sect-label">Upcoming</div>
@@ -2089,6 +2154,508 @@ function fillCourseDeadlines() {
   }
 }
 
+
+/* ── MESS MENU DATA & ENGINE ── */
+(function(){
+
+const MESS = {
+  "2026-03-23": {
+    breakfast: {
+      name:"Breakfast", time:"07:30–09:30",
+      sections:{
+        "Main":["Rawa Idly / Vegetable Idly","Veg Upma"],
+        "Sambar":["Sambar"],"Chutney":["Coconut Chutney"],
+        "Takeaway":["Veg Sandwich","Egg Sandwich"],
+        "Sides":["Mix Seeds","Bread/Butter/Jam","Muskmelon","Tea/Coffee"],
+        "Extras":["Bournvita/Horlicks/Hot Chocolate/Milk","Cornflakes/Chocos","Boiled Egg"]
+      }
+    },
+    lunch: {
+      name:"Lunch", time:"12:30–14:30",
+      sections:{
+        "Breads":["Chapati"],
+        "Veg Dry":["Chow Chow Poriyal"],
+        "Dal":["Dal Pancharangi"],
+        "Sambar":["Drumstick Sambar"],
+        "Rice":["Veg Pulao","White Rice"],
+        "Accompaniments":["Veg Tossed Salad","Papad/Pickle","Curd"]
+      }
+    },
+    snacks: {
+      name:"Evening Snacks", time:"16:00–18:00",
+      sections:{
+        "Snack":["Dahi Papdi Chat"],
+        "Chutney":["Green & Red Chutney"],
+        "Drinks":["Tea/Coffee","Lime Juice"],
+        "Extras":["Bournvita/Horlicks","Hot Chocolate/Milk","Cornflakes/Chocos"]
+      }
+    },
+    dinner: {
+      name:"Dinner", time:"19:00–21:00",
+      sections:{
+        "Breads":["Chapati"],
+        "Veg":["Sev Tamatar Curry"],
+        "Dal":["Lobia Dal"],
+        "Rice":["White Rice","Jeera Rice"],
+        "Accompaniments":["Black Channa Sprouts","Papad/Pickle","Curd"]
+      }
+    }
+  },
+  "2026-03-24": {
+    breakfast: {
+      name:"Breakfast", time:"07:30–09:30",
+      sections:{
+        "Main":["Mutter Poha","Millets Pongal"],
+        "Chutney":["Tomato Red Chutney"],
+        "Takeaway":["Paneer Bhurji Sandwich","Egg Bhurji Sandwich"],
+        "Sides":["Mix Seeds","Bread/Butter/Jam","Season Fruit"],
+        "Extras":["Bournvita/Horlicks/Hot Chocolate/Milk","Cornflakes/Chocos","Boiled Egg"]
+      }
+    },
+    lunch: {
+      name:"Lunch", time:"12:30–14:30",
+      sections:{
+        "Breads":["Chapati"],
+        "Veg":["Soya Kheema Mutter Masala"],
+        "Dal":["Toor Dal Tadka"],
+        "Rasam":["Rasam"],
+        "Rice":["Pudina Rice","White Rice"],
+        "Accompaniments":["Kosambari Salad","Fryums/Pickle","Boondi Raita"]
+      }
+    },
+    snacks: {
+      name:"Evening Snacks", time:"16:00–18:00",
+      sections:{
+        "Snack":["Pav Bhaji"],
+        "Sides":["Plain Sev"],
+        "Drinks":["Tea/Coffee","Fresh Fruit Juice"],
+        "Extras":["Bournvita/Horlicks","Hot Chocolate/Milk","Cornflakes/Chocos"]
+      }
+    },
+    dinner: {
+      name:"Dinner", time:"19:00–21:00",
+      sections:{
+        "Breads":["Chapati"],
+        "Veg":["Gobi Masala"],
+        "Dal":["Hara Moong Dal Tadka"],
+        "Rice":["White Rice","Veg Pulao"],
+        "Accompaniments":["Corn Cucumber Salad","Fryums/Pickle","Semiya Kheer","Curd"]
+      }
+    }
+  },
+  "2026-03-25": {
+    breakfast: {
+      name:"Breakfast", time:"07:30–09:30",
+      sections:{
+        "Main":["Kesari Bhat","Vermicelli Upma"],
+        "Chutney":["Coconut Chutney"],
+        "Takeaway":["Corn Paneer Sandwich","Chicken Sandwich"],
+        "Sides":["Mix Seeds","Bread/Butter/Jam","Banana","Boiled Egg"],
+        "Extras":["Bournvita/Horlicks/Hot Chocolate/Milk","Cornflakes/Chocos"]
+      }
+    },
+    lunch: {
+      name:"Lunch", time:"12:30–14:30",
+      sections:{
+        "Breads":["Palak Poori"],
+        "Veg":["Chole Masala"],
+        "Dal":["Moong Dal"],
+        "Rice":["Lemon Rice","White Rice"],
+        "Accompaniments":["Laccha Onion Salad","Fryums/Pickle","Masala Buttermilk"]
+      }
+    },
+    snacks: {
+      name:"Evening Snacks", time:"16:00–18:00",
+      sections:{
+        "Snack":["Veg Puffs"],
+        "Drinks":["Tea/Coffee","Fresh Mango Milkshake"],
+        "Extras":["Bournvita/Horlicks","Hot Chocolate/Milk","Cornflakes/Chocos"]
+      }
+    },
+    dinner: {
+      name:"Dinner", time:"19:00–21:00",
+      sections:{
+        "Breads":["Chapati"],
+        "Dal":["Dal Tadka"],
+        "Rice":["White Rice"],
+        "Accompaniments":["Sprouts Salad","Papad/Pickle","Curd"],
+        "Specials":["Kadhai Paneer","Butter Chicken"]
+      }
+    }
+  },
+  "2026-03-26": {
+    breakfast: {
+      name:"Breakfast", time:"07:30–09:30",
+      sections:{
+        "Main":["Idly / Ragi Idly","Poha"],
+        "Sambar":["Sambar","Coconut Chutney"],
+        "Takeaway":["Veg Sandwich","Egg Masala Sandwich"],
+        "Sides":["Mix Seeds","Bread/Butter/Jam","Watermelon","Boiled Egg"],
+        "Extras":["Bournvita/Horlicks/Hot Chocolate/Milk","Cornflakes/Chocos"]
+      }
+    },
+    lunch: {
+      name:"Lunch", time:"12:30–14:30",
+      sections:{
+        "Breads":["Chapati"],
+        "Veg":["Kadhi Pakoda"],
+        "Dal":["Dal Palak"],
+        "Rasam":["Garlic Rasam"],
+        "Rice":["Rajamudi Rice","White Rice"],
+        "Accompaniments":["Millet Veg Salad","Papad/Pickle","Curd"]
+      }
+    },
+    snacks: {
+      name:"Evening Snacks", time:"16:00–18:00",
+      sections:{
+        "Snack":["Aloo Bun"],
+        "Drinks":["Tea/Coffee","Cold Coffee"],
+        "Extras":["Bournvita/Horlicks","Hot Chocolate/Milk","Cornflakes/Chocos"]
+      }
+    },
+    dinner: {
+      name:"Dinner", time:"19:00–21:00",
+      sections:{
+        "Breads":["Chapati"],
+        "Veg":["Shahi Mutter Paneer"],
+        "Dal":["Brown Dal"],
+        "Rice":["White Rice","Egg Rice"],
+        "Accompaniments":["Green Salad","Fryums/Pickle","Vanilla Pastry","Curd"]
+      }
+    }
+  },
+  "2026-03-27": {
+    breakfast: {
+      name:"Breakfast", time:"07:30–09:30",
+      sections:{
+        "Main":["Bread Upma","Veg Upma"],
+        "Chutney":["Coconut Chutney"],
+        "Takeaway":["Soyabean Kheema Sandwich","Chicken Sausage Sandwich"],
+        "Sides":["Bread/Butter/Jam","Banana","Egg Bhurji","Tea/Coffee"],
+        "Extras":["Bournvita/Horlicks/Hot Chocolate/Milk","Cornflakes/Chocos"]
+      }
+    },
+    lunch: {
+      name:"Lunch", time:"12:30–14:30",
+      sections:{
+        "Breads":["Chapati"],
+        "Veg":["Gobi Mutter Masala"],
+        "Dal":["Dal Makhani"],
+        "Sambar":["Sambar"],
+        "Rice":["Veg Pulao","White Rice"],
+        "Accompaniments":["Green Salad","Papad/Pickle","Curd"]
+      }
+    },
+    snacks: {
+      name:"Evening Snacks", time:"16:00–18:00",
+      sections:{
+        "Snack":["Bhel Puri"],
+        "Drinks":["Tea/Coffee","Rooh Afza"],
+        "Extras":["Bournvita/Horlicks","Hot Chocolate/Milk","Cornflakes/Chocos"]
+      }
+    },
+    dinner: {
+      name:"Dinner", time:"19:00–21:00",
+      sections:{
+        "Breads":["Chapati"],
+        "Veg":["Aloo Matar Masala Dry"],
+        "Dal":["Yellow Dal"],
+        "Rice":["White Rice","Corn Palak Pulao"],
+        "Accompaniments":["Carrot Cucumber Salad","Papad/Pickle","Chocolate Brownies","Curd"]
+      }
+    }
+  },
+  "2026-03-28": {
+    breakfast: {
+      name:"Breakfast", time:"08:00–10:00",
+      sections:{
+        "Main":["Semiya Upma","Millets Khichdi"],
+        "Chutney":["Tomato Red Chutney"],
+        "Sides":["Mix Seeds","Bread/Butter/Jam","Season Fruit","Tea/Coffee"],
+        "Extras":["Bournvita/Horlicks/Hot Chocolate/Milk","Cornflakes/Chocos","Boiled Egg"]
+      }
+    },
+    lunch: {
+      name:"Lunch", time:"12:30–14:30",
+      sections:{
+        "Breads":["Chapati"],
+        "Veg":["Mix Veg Paneer Korma"],
+        "Dal":["Lobia Dal"],
+        "Rasam":["Pepper Rasam"],
+        "Rice":["Rajmudi Rice","White Rice"],
+        "Accompaniments":["Sprouts Salad","Fryums/Pickle","Curd"]
+      }
+    },
+    snacks: {
+      name:"Evening Snacks", time:"16:00–18:00",
+      sections:{
+        "Snack":["Veg Roll"],
+        "Drinks":["Tea/Coffee","Masala Buttermilk"],
+        "Extras":["Bournvita/Horlicks","Hot Chocolate/Milk","Cornflakes/Chocos"]
+      }
+    },
+    dinner: {
+      name:"Dinner", time:"19:00–21:00",
+      sections:{
+        "Breads":["Chapati"],
+        "Veg":["Aloo Chole Masala"],
+        "Dal":["Dal Makhani"],
+        "Rice":["White Rice","Khuska"],
+        "Accompaniments":["Kosambari Salad","Fryums/Pickle","Ice Cream Vanilla","Curd"],
+        "Extras":["Boiled Egg"]
+      }
+    }
+  },
+  "2026-03-29": {
+    breakfast: {
+      name:"Breakfast", time:"08:00–10:00",
+      sections:{
+        "Main":["Bisibella Bhat","Masala Oats"],
+        "Chutney":["Coconut Chutney","Khara Boondi"],
+        "Sides":["Mix Seeds","Bread/Butter/Jam","Banana","Boiled Egg","Tea/Coffee"],
+        "Extras":["Bournvita/Horlicks/Hot Chocolate/Milk","Cornflakes/Chocos"]
+      }
+    },
+    lunch: {
+      name:"Lunch", time:"12:30–14:30",
+      sections:{
+        "Breads":["Chapati"],
+        "Veg":["Mix Veg Curry"],
+        "Dal":["Dal Tadka"],
+        "Rice":["Rajamudi Rice","White Rice"],
+        "Accompaniments":["Sprouts Salad","Fryums/Pickle","Curd"]
+      }
+    },
+    snacks: {
+      name:"Evening Snacks", time:"16:00–18:00",
+      sections:{
+        "Snack":["Gol Gappa"],
+        "Sides":["Flavoured Water"],
+        "Drinks":["Tea/Coffee","Banana Milkshake"],
+        "Extras":["Bournvita/Horlicks","Hot Chocolate/Milk","Cornflakes/Chocos"]
+      }
+    },
+    dinner: {
+      name:"Dinner", time:"19:00–21:00",
+      sections:{
+        "Breads":["Chapati"],
+        "Dal":["Tomato Dal"],
+        "Rice":["White Rice"],
+        "Accompaniments":["Cucumber Salad","Papad/Pickle","Gulab Jamun","Raita"],
+        "Specials":["Chicken Biryani (Free)","Paneer Biryani (Free)"]
+      }
+    }
+  }
+};
+
+const MEAL_ORDER = ['breakfast','lunch','snacks','dinner'];
+
+const MEAL_ICONS = {
+  breakfast:'<svg viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>',
+  lunch:'<svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>',
+  snacks:'<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12h8M12 8v8"/></svg>',
+  dinner:'<svg viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>'
+};
+
+// parse "HH:MM–HH:MM" -> {startH, startM, endH, endM}
+function parseMealTime(timeStr) {
+  const [s,e] = timeStr.split('–');
+  const [sh,sm] = s.split(':').map(Number);
+  const [eh,em] = e.split(':').map(Number);
+  return {startH:sh,startM:sm,endH:eh,endM:em};
+}
+
+function todayKey() {
+  const n = new Date();
+  const y = n.getFullYear();
+  const m = String(n.getMonth()+1).padStart(2,'0');
+  const d = String(n.getDate()).padStart(2,'0');
+  return `${y}-${m}-${d}`;
+}
+
+function nextDateKey(key) {
+  const d = new Date(key+'T12:00:00');
+  d.setDate(d.getDate()+1);
+  return d.toISOString().slice(0,10);
+}
+
+// Find the upcoming or currently-active meal
+function getUpcomingMeal() {
+  const now = new Date();
+  const key = todayKey();
+  const dayData = MESS[key];
+  if (!dayData) return null;
+
+  for (const mealKey of MEAL_ORDER) {
+    const meal = dayData[mealKey];
+    if (!meal) continue;
+    const t = parseMealTime(meal.time);
+    const start = new Date(now); start.setHours(t.startH, t.startM, 0, 0);
+    const end   = new Date(now); end.setHours(t.endH,   t.endM,   0, 0);
+    if (now <= end) {
+      return { dateKey:key, mealKey, meal, isLive: now >= start, start, end };
+    }
+  }
+  // All meals done today — look for tomorrow's first
+  const tmKey = nextDateKey(key);
+  const tmData = MESS[tmKey];
+  if (tmData) {
+    const mealKey = MEAL_ORDER.find(k => tmData[k]);
+    if (mealKey) {
+      const meal = tmData[mealKey];
+      const t = parseMealTime(meal.time);
+      const tmDate = new Date(tmKey+'T00:00:00');
+      const start = new Date(tmDate); start.setHours(t.startH, t.startM, 0, 0);
+      return { dateKey:tmKey, mealKey, meal, isLive:false, start, end:null };
+    }
+  }
+  return null;
+}
+
+function getNextMeal(currentDateKey, currentMealKey) {
+  const idx = MEAL_ORDER.indexOf(currentMealKey);
+  // next meal same day
+  for (let i=idx+1; i<MEAL_ORDER.length; i++) {
+    const mk = MEAL_ORDER[i];
+    if (MESS[currentDateKey] && MESS[currentDateKey][mk]) {
+      return { dateKey:currentDateKey, mealKey:mk, meal:MESS[currentDateKey][mk] };
+    }
+  }
+  // first meal next day
+  const nextKey = nextDateKey(currentDateKey);
+  const nextData = MESS[nextKey];
+  if (nextData) {
+    const mk = MEAL_ORDER.find(k => nextData[k]);
+    if (mk) return { dateKey:nextKey, mealKey:mk, meal:nextData[mk] };
+  }
+  return null;
+}
+
+function fmtCountdown(ms) {
+  const totalSec = Math.floor(ms/1000);
+  const h = Math.floor(totalSec/3600);
+  const m = Math.floor((totalSec%3600)/60);
+  if (h > 0) return `${h}h ${m}m`;
+  return `${m}m`;
+}
+
+function fmtDate(dateKey) {
+  const d = new Date(dateKey+'T12:00:00');
+  const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${days[d.getDay()]} ${d.getDate()} ${months[d.getMonth()]}`;
+}
+
+function getPreviewItems(meal) {
+  // Prioritise Main, Veg, Snack, Dal, Rice — most interesting items
+  const priority = ['Main','Veg','Snack','Specials','Dal','Rice','Sambar','Breads'];
+  const items = [];
+  for (const cat of priority) {
+    if (meal.sections[cat]) items.push(...meal.sections[cat]);
+    if (items.length >= 4) break;
+  }
+  // Fill from remaining if fewer than 3
+  if (items.length < 3) {
+    for (const [cat, arr] of Object.entries(meal.sections)) {
+      if (!priority.includes(cat)) items.push(...arr);
+      if (items.length >= 4) break;
+    }
+  }
+  return items.slice(0, 4);
+}
+
+function renderMessCard() {
+  const info = getUpcomingMeal();
+  const nameEl = document.getElementById('mm-meal-name');
+  const timeEl = document.getElementById('mm-time-badge');
+  const previewEl = document.getElementById('mm-preview');
+  const countdownEl = document.getElementById('mm-countdown-text');
+  const dotEl = document.getElementById('mm-countdown-dot');
+  if (!info || !nameEl) return;
+
+  const { meal, isLive, start, dateKey } = info;
+  const isToday = dateKey === todayKey();
+
+  nameEl.textContent = meal.name;
+  timeEl.innerHTML = `<svg style="width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2;flex-shrink:0" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${isToday?'Today':'Tomorrow'}, ${meal.time}`;
+
+  // Preview chips
+  const items = getPreviewItems(meal);
+  const totalCount = Object.values(meal.sections).flat().length;
+  previewEl.innerHTML = items.map(i=>`<span class="mm-chip">${i}</span>`).join('') +
+    (totalCount > items.length ? `<span class="mm-chip more">+${totalCount - items.length} more</span>` : '');
+
+  // Countdown
+  if (isLive) {
+    dotEl.className = 'mm-countdown-dot live';
+    countdownEl.textContent = 'Serving now';
+  } else {
+    dotEl.className = 'mm-countdown-dot';
+    const now = new Date();
+    const diff = start - now;
+    countdownEl.textContent = diff > 0 ? `Opens in ${fmtCountdown(diff)}` : 'Starting soon';
+  }
+}
+
+// Live countdown refresh
+setInterval(renderMessCard, 30000);
+renderMessCard();
+
+// ── Modal ──
+window.openMessModal = function() {
+  const info = getUpcomingMeal();
+  if (!info) return;
+  const nextInfo = getNextMeal(info.dateKey, info.mealKey);
+  const title = document.getElementById('mess-modal-title');
+  const sub   = document.getElementById('mess-modal-subtitle');
+  const body  = document.getElementById('mess-modal-body');
+
+  title.textContent = 'Mess Menu';
+  sub.textContent = `${fmtDate(info.dateKey)} · ${info.meal.isLive ? 'Serving now' : 'Upcoming & next'}`;
+
+  function renderMealBlock(mInfo, label, labelClass) {
+    const { dateKey, mealKey, meal } = mInfo;
+    const isToday = dateKey === todayKey();
+    const dateLabel = isToday ? 'Today' : fmtDate(dateKey);
+
+    const sectionsHtml = Object.entries(meal.sections).map(([cat, items]) => `
+      <div class="mm-section-row">
+        <span class="mm-section-label">${cat}</span>
+        <span class="mm-section-items">${items.map((it,i) => i===0 ? `<strong>${it}</strong>` : it).join(', ')}</span>
+      </div>`).join('');
+
+    return `<div class="mess-modal-meal">
+      <div class="mm-modal-meal-header">
+        <div class="mm-modal-meal-icon">${MEAL_ICONS[mealKey]||MEAL_ICONS.dinner}</div>
+        <div class="mm-modal-meal-info">
+          <div class="mm-modal-meal-name">${meal.name}</div>
+          <div class="mm-modal-meal-time">${dateLabel} · ${meal.time}</div>
+        </div>
+        <span class="mm-modal-meal-label ${labelClass}">${label}</span>
+      </div>
+      <div class="mm-sections">${sectionsHtml}</div>
+    </div>`;
+  }
+
+  let html = renderMealBlock(info, info.isLive ? 'Live' : 'Up Next', '');
+  if (nextInfo) {
+    html += '<div class="mm-modal-sep"></div>';
+    html += renderMealBlock(nextInfo, 'Following', 'next');
+  }
+  body.innerHTML = html;
+
+  document.getElementById('mess-overlay').classList.add('open');
+};
+
+window.closeMess = function() {
+  document.getElementById('mess-overlay').classList.remove('open');
+};
+window.closeMessOutside = function(e) {
+  if (e.target === document.getElementById('mess-overlay')) closeMess();
+};
+
+})();
+
 </script>
 
 <!-- ADD RESOURCE MODAL -->
@@ -2172,6 +2739,20 @@ function fillCourseDeadlines() {
         <div class="rcc-link-row"><div class="rcc-link-label">Suggestions / Concerns</div><div class="rcc-link-meta"><a href="https://docs.google.com/forms/d/e/1FAIpQLScV3KRY-Rg2P7zxse3AN1MHRpwrRHv3vnhbUeSIH2eTeapEAQ/viewform?usp=sharing&ouid=108888472648732443425" target="_blank">Anonymous feedback form</a><div class="rcc-note">For urgent grievances, approach an RCC Member directly.</div></div></div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- MESS MEAL MODAL -->
+<div class="modal-overlay" id="mess-overlay" onclick="closeMessOutside(event)">
+  <div class="modal-box mess-modal-box">
+    <div class="modal-header">
+      <div>
+        <h2 id="mess-modal-title">Mess Menu</h2>
+        <p id="mess-modal-subtitle">Today's schedule</p>
+      </div>
+      <button class="modal-close" onclick="closeMess()">✕</button>
+    </div>
+    <div class="modal-body" id="mess-modal-body"></div>
   </div>
 </div>
 
