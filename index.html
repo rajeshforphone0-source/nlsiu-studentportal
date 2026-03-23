@@ -30,17 +30,26 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 
 
 /* PAGE */
-.page{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:2.5rem 2rem 5rem;display:grid;grid-template-columns:1fr 340px;grid-template-areas:"hero hero" "courses main-right" "portals main-right" "resources main-right";gap:1.25rem;align-items:start}
+.page{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:2rem 2rem 5rem;display:grid;grid-template-columns:1fr 340px;grid-template-areas:"courses main-right" "portals main-right" "resources main-right";gap:1.25rem;align-items:start}
 
-/* HERO */
-.hero{grid-area:hero;background:var(--accent);border-radius:var(--r);display:grid;grid-template-columns:1fr 1fr;box-shadow:var(--shadow-lg);overflow:hidden;position:relative;animation:fadeUp .5s ease both;min-height:148px}
-.hero::before{content:'';position:absolute;right:320px;top:-60px;width:260px;height:260px;border:1px solid rgba(255,255,255,.07);border-radius:50%;pointer-events:none}
-.hero::after{content:'';position:absolute;right:260px;top:-100px;width:380px;height:380px;border:1px solid rgba(255,255,255,.04);border-radius:50%;pointer-events:none}
-.hero-left{padding:2rem 2.4rem;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(255,255,255,.1)}
-.hero-eyebrow{font-size:.6rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.45rem}
-.hero-heading{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:500;color:#fff;line-height:1.15}
+/* HERO — full-width header */
+.hero{
+  background:var(--accent);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  position:relative;
+  overflow:hidden;
+  animation:fadeUp .4s ease both;
+  border-bottom:1px solid rgba(0,0,0,.12);
+}
+.hero::before{content:'';position:absolute;right:320px;top:-60px;width:260px;height:260px;border:1px solid rgba(255,255,255,.06);border-radius:50%;pointer-events:none}
+.hero::after{content:'';position:absolute;right:260px;top:-100px;width:380px;height:380px;border:1px solid rgba(255,255,255,.03);border-radius:50%;pointer-events:none}
+.hero-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;width:100%;padding:0 2rem}
+.hero-left{padding:1.6rem 0;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(255,255,255,.1);max-width:1160px}
+.hero-eyebrow{font-size:.6rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.35rem}
+.hero-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500;color:#fff;line-height:1.15}
 .hero-heading em{font-style:italic;font-weight:400;color:rgba(255,255,255,.82)}
-.hero-right{position:relative;z-index:1;padding:1.3rem 1.5rem;display:flex;flex-direction:column;overflow:hidden}
+.hero-right{position:relative;z-index:1;padding:1.2rem 0 1.2rem 1.5rem;display:flex;flex-direction:column;overflow:hidden}
 .hero-tl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
 .hero-tl-title{font-family:'Cormorant Garamond',serif;font-size:.9rem;font-weight:500;color:rgba(255,255,255,.9)}
 .hero-tl-date{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.38);letter-spacing:.06em}
@@ -269,8 +278,8 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   .hero-right{ display:none; }
   .hero-left{
     border-right:none;
-    border-bottom:none;
-    padding:1.5rem 1.5rem 1.5rem;
+    border-bottom:1px solid rgba(255,255,255,.1);
+    padding:1.2rem 1.5rem;
   }
   .hero-heading{font-size:1.8rem}
 
@@ -731,9 +740,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 </div>
 
 
-<div class="page">
-
-  <!-- HERO -->
+<!-- HERO -->
   <div class="hero">
     <div class="hero-left">
       <div class="hero-eyebrow" id="greeting">Good evening</div>
@@ -759,6 +766,10 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
       </div>
     </div>
   </div>
+
+<div class="page">
+
+
 
   <!-- PORTALS -->
   <section class="portals-section">
