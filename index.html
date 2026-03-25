@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#7c1d1d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>NLSIU · Student Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -732,7 +735,7 @@ body.page-revealed .main-right {
 
 /* ── MESS MEAL CARD ── */
 #mess-meal-card{
-  background:var(--surface);border:1px solid var(--rule);border-radius:var(--r);
+  background:#f0ece5;border:1px solid #d9d2c8;border-radius:var(--r);
   box-shadow:var(--shadow-sm);overflow:hidden;cursor:pointer;
   transition:box-shadow .2s,border-color .2s,transform .2s;
 }
@@ -797,6 +800,30 @@ body.page-revealed .main-right {
   white-space:nowrap;
   flex-shrink:0;
 }
+
+
+.ar-manage-toggle{
+  background:none;border:none;cursor:pointer;
+  font-family:'Outfit',sans-serif;font-size:.67rem;
+  color:var(--ink-3);padding:.4rem 0 0;
+  transition:color .15s;width:100%;text-align:left;
+}
+.ar-manage-toggle:hover{color:var(--ink)}
+.ar-manage-item{
+  display:flex;align-items:center;gap:.6rem;
+  padding:.45rem .6rem;border:1px solid var(--rule);
+  border-radius:7px;background:var(--bg);
+}
+.ar-manage-item-icon{font-size:.9rem;flex-shrink:0}
+.ar-manage-item-body{flex:1;min-width:0}
+.ar-manage-item-name{font-size:.75rem;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ar-manage-item-course{font-size:.62rem;color:var(--ink-3);font-weight:300}
+.ar-manage-del{
+  background:none;border:1px solid var(--rule);border-radius:5px;
+  cursor:pointer;padding:.2rem .4rem;font-size:.65rem;
+  color:var(--ink-3);transition:all .15s;flex-shrink:0;
+}
+.ar-manage-del:hover{background:rgba(124,29,29,.06);border-color:var(--accent);color:var(--accent)}
 
 </style>
 </head>
@@ -902,6 +929,22 @@ body.page-revealed .main-right {
         <div class="card-body"><div class="card-name">Batch Drive</div><div class="card-hint">Shared Google Drive</div></div>
         <span class="card-arrow">→</span>
       </a>
+    
+      <a href="https://eresources.nls.ac.in/user/login?dest=https%3A%2F%2Fwww.scconline.com%2F" target="_blank" class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+        <div class="card-body"><div class="card-name">SCCOnline</div><div class="card-hint">Supreme Court Cases · NLS eResources</div></div>
+        <span class="card-arrow">→</span>
+      </a>
+      <a href="https://eresources.nls.ac.in/user/login?dest=https%3A%2F%2Fadvance.lexis.com%2F" target="_blank" class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <div class="card-body"><div class="card-name">Lexis Advance</div><div class="card-hint">LexisNexis · NLS eResources</div></div>
+        <span class="card-arrow">→</span>
+      </a>
+      <a href="https://eresources.nls.ac.in/user/login?dest=https%3A%2F%2Fwww.manupatra.ai%2F" target="_blank" class="card">
+        <div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+        <div class="card-body"><div class="card-name">Manupatra</div><div class="card-hint">Legal Research · NLS eResources</div></div>
+        <span class="card-arrow">→</span>
+      </a>
     </div>
   </section>
 
@@ -969,24 +1012,7 @@ body.page-revealed .main-right {
       <span class="rcc-arrow">→</span>
     </button>
 
-    <!-- Legal Databases -->
-    <div style="display:flex;flex-direction:column;gap:.75rem;margin-top:.75rem">
-      <a href="https://eresources.nls.ac.in/user/login?dest=https%3A%2F%2Fwww.scconline.com%2F" target="_blank" class="card">
-        <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
-        <div class="card-body"><div class="card-name">SCCOnline</div><div class="card-hint">Supreme Court Cases · NLS eResources</div></div>
-        <span class="card-arrow">→</span>
-      </a>
-      <a href="https://eresources.nls.ac.in/user/login?dest=https%3A%2F%2Fadvance.lexis.com%2F" target="_blank" class="card">
-        <div class="card-icon"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
-        <div class="card-body"><div class="card-name">Lexis Advance</div><div class="card-hint">LexisNexis · NLS eResources</div></div>
-        <span class="card-arrow">→</span>
-      </a>
-      <a href="https://eresources.nls.ac.in/user/login?dest=https%3A%2F%2Fwww.manupatra.ai%2F" target="_blank" class="card">
-        <div class="card-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-        <div class="card-body"><div class="card-name">Manupatra</div><div class="card-hint">Legal Research · NLS eResources</div></div>
-        <span class="card-arrow">→</span>
-      </a>
-    </div>
+
 
     <!-- User resources list (shown once ≥1 resource exists) -->
     <div id="user-res-section" style="display:none;margin-top:.75rem">
@@ -1021,7 +1047,7 @@ body.page-revealed .main-right {
       </div>
     </div>
     <!-- MESS MEAL CARD -->
-    <div class="sect-label">Mess</div>
+    <div class="sect-label" style="margin-top:1.25rem">Mess</div>
     <div id="mess-meal-card" onclick="openMessModal()">
       <div class="mm-header">
         <div class="mm-header-left">
@@ -2671,6 +2697,45 @@ window.closeMessOutside = function(e) {
 
 })();
 
+
+function toggleManageResources(){
+  const sec  = document.getElementById('ar-manage-section');
+  const btn  = document.getElementById('ar-manage-toggle');
+  const list = document.getElementById('ar-manage-list');
+  const open = sec.style.display === 'block';
+  if(open){
+    sec.style.display='none';
+    btn.textContent='Manage saved resources ↓';
+    return;
+  }
+  // Build list
+  const resources = loadResources();
+  if(!resources.length){
+    list.innerHTML='<div style="font-size:.72rem;color:var(--ink-3);padding:.3rem 0">No resources saved yet.</div>';
+  } else {
+    list.innerHTML = resources.map((r,i)=>`
+      <div class="ar-manage-item">
+        <div class="ar-manage-item-icon">${r.icon||'📎'}</div>
+        <div class="ar-manage-item-body">
+          <div class="ar-manage-item-name">${escH(r.name)}</div>
+          ${r.course?`<div class="ar-manage-item-course">${escH(getCourseLabel(r.course))}</div>`:''}
+        </div>
+        <button class="ar-manage-del" onclick="deleteResourceFromModal(${i})">Delete</button>
+      </div>`).join('');
+  }
+  sec.style.display='block';
+  btn.textContent='Manage saved resources ↑';
+}
+
+function deleteResourceFromModal(idx){
+  const arr = loadResources();
+  arr.splice(idx,1);
+  saveResources(arr);
+  renderSidebarResources();
+  toggleManageResources(); // close
+  toggleManageResources(); // reopen to refresh
+}
+
 </script>
 
 <!-- ADD RESOURCE MODAL -->
@@ -2713,6 +2778,13 @@ window.closeMessOutside = function(e) {
           <input class="ar-input" id="ar-link" type="url" placeholder="https://"/>
         </div>
         <button class="ar-submit" onclick="saveResource()">Save Resource →</button>
+
+        <!-- Manage / delete existing resources -->
+        <div id="ar-manage-section" style="margin-top:1.25rem;display:none">
+          <div class="ar-label" style="margin-bottom:.6rem">Saved Resources</div>
+          <div id="ar-manage-list" style="display:flex;flex-direction:column;gap:.4rem"></div>
+        </div>
+        <button id="ar-manage-toggle" class="ar-manage-toggle" onclick="toggleManageResources()">Manage saved resources ↓</button>
       </div>
     </div>
   </div>
