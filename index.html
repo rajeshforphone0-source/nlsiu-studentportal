@@ -37,7 +37,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 .page{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding:2rem 2rem 5rem;display:grid;grid-template-columns:1fr 340px;grid-template-areas:"courses main-right" "portals main-right" "resources main-right";gap:1.25rem;align-items:start}
 
 /* ── PAGE REVEAL after splash ── */
-.hero,
 .courses-section,
 .portals-section,
 .resources-section,
@@ -45,11 +44,6 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
   opacity: 0;
   transform: translateY(10px);
   transition: opacity .35s ease, transform .35s ease;
-}
-body.page-revealed .hero {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0s;
 }
 body.page-revealed .courses-section {
   opacity: 1;
@@ -75,7 +69,11 @@ body.page-revealed .main-right {
 /* HERO — full-width header */
 .hero{
   background:var(--accent);
-  position:relative;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:100;
   overflow:hidden;
   border-bottom:1px solid rgba(0,0,0,.12);
 }
@@ -299,7 +297,7 @@ body.page-revealed .main-right {
   /* Single column layout — right col drops below left */
   .page{
     grid-template-columns:1fr;
-    grid-template-areas:"hero" "portals" "main-right";
+    grid-template-areas:"portals" "main-right";
     padding:1.25rem 1.25rem 4rem;
     gap:1rem;
   }
@@ -828,6 +826,24 @@ body.page-revealed .main-right {
 
 .mess-section{display:flex;flex-direction:column;gap:.6rem}
 .mess-section .sect-label{margin-bottom:0}
+
+/* hero spacer — matches fixed hero height so content isn't hidden behind it */
+#hero-spacer { height: 160px; }
+@media(max-width:860px){ #hero-spacer{ height:90px; } }
+@media(max-width:480px){ #hero-spacer{ height:80px; } }
+
+
+/* permanent maroon cap — ensures Safari tab bar stays maroon always */
+html::before{
+  content:'';
+  position:fixed;
+  top:0; left:0; right:0;
+  height:1px;
+  background:#7c1d1d;
+  z-index:9998;
+  pointer-events:none;
+}
+
 </style>
 </head>
 <body>
@@ -908,6 +924,7 @@ body.page-revealed .main-right {
   </div>
   </div><!-- /hero-inner and hero -->
 
+<div id="hero-spacer"></div>
 <div class="page">
 
 
@@ -2740,6 +2757,16 @@ function deleteResourceFromModal(idx){
   toggleManageResources(); // close
   toggleManageResources(); // reopen to refresh
 }
+
+
+// Keep hero-spacer in sync with actual hero height
+function syncHeroSpacer(){
+  const hero = document.querySelector('.hero');
+  const spacer = document.getElementById('hero-spacer');
+  if(hero && spacer){ spacer.style.height = hero.offsetHeight + 'px'; }
+}
+window.addEventListener('load', syncHeroSpacer);
+window.addEventListener('resize', syncHeroSpacer);
 
 </script>
 
