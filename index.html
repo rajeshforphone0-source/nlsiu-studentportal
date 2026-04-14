@@ -2690,6 +2690,9 @@ function renderMessCard() {
 }
 
 // Live countdown refresh
+// ── Merge any saved mess data BEFORE first render ──
+(function(){ var saved=loadSavedMess(); if(saved) Object.assign(MESS, saved); })();
+
 setInterval(renderMessCard, 30000);
 renderMessCard();
 
@@ -2746,13 +2749,10 @@ window.closeMessOutside = function(e) {
   if (e.target === document.getElementById('mess-overlay')) closeMess();
 };
 
-// Merge any saved mess data on init
-(function(){ var saved=loadSavedMess(); if(saved) Object.assign(MESS, saved); })();
-
 // Expose update function so upload handler (outside IIFE) can call it
 window._updateMESS = function(newData){
   Object.assign(MESS, newData);
-  try{ localStorage.setItem('nlsiu_mess_data', JSON.stringify(newData)); }catch(e){}
+  try{ localStorage.setItem('nlsiu_mess_data', JSON.stringify(MESS)); }catch(e){}
   renderMessCard();
 };
 
