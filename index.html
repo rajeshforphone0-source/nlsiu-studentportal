@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>NLSIU · Student Portal</title>
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -80,19 +80,20 @@ body.page-revealed .main-right {
 }
 .hero::before{content:'';position:absolute;right:320px;top:-60px;width:260px;height:260px;border:1px solid rgba(255,255,255,.06);border-radius:50%;pointer-events:none}
 .hero::after{content:'';position:absolute;right:260px;top:-100px;width:380px;height:380px;border:1px solid rgba(255,255,255,.03);border-radius:50%;pointer-events:none}
-.hero-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;width:100%;padding:0 2rem;box-sizing:border-box}
-.hero-left{padding:1.6rem 0;position:relative;z-index:1;display:flex;flex-direction:row;align-items:center;gap:1.25rem;border-right:1px solid rgba(255,255,255,.1);transition:padding .4s cubic-bezier(.4,0,.2,1)}
-.hero-eyebrow{font-size:.6rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.35rem;max-height:3rem;overflow:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1),opacity .3s ease,margin .4s cubic-bezier(.4,0,.2,1)}
-.hero-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500;color:#fff;line-height:1.15;transition:font-size .4s cubic-bezier(.4,0,.2,1)}
+.hero-inner{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;width:100%;padding:0 2rem;box-sizing:border-box;transition:grid-template-columns .35s ease}
+.hero-left{padding:1.6rem 0;position:relative;z-index:1;display:flex;flex-direction:row;align-items:center;gap:1.25rem;border-right:1px solid rgba(255,255,255,.1);transition:padding .35s ease,border-color .3s ease}
+.hero-eyebrow{font-size:.6rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.35rem;max-height:2rem;overflow:hidden;transition:max-height .3s ease,opacity .25s ease,margin-bottom .3s ease}
+.hero-heading{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:500;color:#fff;line-height:1.15;transition:font-size .3s ease}
 .hero-heading em{font-style:italic;font-weight:400;color:rgba(255,255,255,.82)}
-.hero-br{transition:none}
-.hero-right{position:relative;z-index:1;padding:1.2rem 0 1.2rem 1.5rem;display:flex;flex-direction:column;overflow:hidden;max-height:500px;opacity:1;transition:max-height .45s cubic-bezier(.4,0,.2,1),opacity .3s ease,padding .4s cubic-bezier(.4,0,.2,1)}
-/* ── HERO SCROLLED STATE ── */
-.hero.scrolled .hero-left{padding:.6rem 0}
+.hero-right{position:relative;z-index:1;padding:1.2rem 0 1.2rem 1.5rem;display:flex;flex-direction:column;overflow:hidden;max-height:400px;transition:max-height .35s ease,opacity .25s ease,padding .3s ease}
+
+/* ── HERO SHRINK ON SCROLL ── */
+.hero.scrolled .hero-inner{grid-template-columns:1fr 0px}
+.hero.scrolled .hero-left{padding:.65rem 0;border-color:transparent}
 .hero.scrolled .hero-eyebrow{max-height:0;opacity:0;margin-bottom:0}
-.hero.scrolled .hero-heading{font-size:1.2rem}
-.hero.scrolled .hero-br{display:none}
-.hero.scrolled .hero-right{max-height:0;opacity:0;padding-top:0;padding-bottom:0}
+.hero.scrolled .hero-heading{font-size:1.25rem}
+.hero.scrolled .hero-heading .hero-br{display:none}
+.hero.scrolled .hero-right{max-height:0;opacity:0;padding:0;pointer-events:none}
 .hero-tl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
 .hero-tl-title{font-family:'Cormorant Garamond',serif;font-size:.9rem;font-weight:500;color:rgba(255,255,255,.9)}
 .hero-tl-date{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:rgba(255,255,255,.38);letter-spacing:.06em}
@@ -356,25 +357,6 @@ body.page-revealed .main-right {
   .hero-right{max-height:160px;padding:1rem 0 1rem 1.5rem}
   .page{padding:1.25rem 1.5rem 3rem}
 }
-
-/* ── MESS MENU UPLOAD ── */
-.mess-upload-zone{
-  margin-top:1.2rem;border-top:1px solid var(--rule);padding-top:1rem;
-  display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap;
-}
-.mess-upload-btn{
-  display:inline-flex;align-items:center;gap:.4rem;
-  font-family:'Outfit',sans-serif;font-size:.68rem;font-weight:500;
-  color:var(--ink-3);background:var(--bg);border:1px solid var(--rule);
-  border-radius:7px;padding:.35rem .75rem;cursor:pointer;
-  transition:border-color .2s,color .2s,background .2s;white-space:nowrap;
-}
-.mess-upload-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(124,29,29,.04)}
-.mess-upload-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
-.mess-upload-hint{font-size:.6rem;color:var(--ink-3);font-weight:300;line-height:1.5}
-.mess-upload-status{font-size:.68rem;font-weight:500;padding:.25rem .65rem;border-radius:5px;display:none}
-.mess-upload-status.ok{display:inline-block;background:rgba(107,158,107,.12);color:#4a7a4a;border:1px solid rgba(107,158,107,.3)}
-.mess-upload-status.err{display:inline-block;background:rgba(124,29,29,.08);color:var(--accent);border:1px solid rgba(124,29,29,.2)}
 
 /* ── SPLASH ── */
 #splash {
@@ -853,6 +835,12 @@ body.page-revealed .main-right {
 
 .mess-section{display:flex;flex-direction:column;gap:.6rem}
 .mess-section .sect-label{margin-bottom:0}
+.mess-upload-row{display:flex;gap:.5rem;align-items:center;padding:.1rem 0 .2rem}
+.mess-upload-btn{flex:1;background:none;border:1px dashed var(--rule);border-radius:8px;padding:.42rem .7rem;font-size:.62rem;font-family:'Outfit',sans-serif;font-weight:500;color:var(--ink-3);cursor:pointer;transition:border-color .2s,color .2s,background .2s;display:flex;align-items:center;gap:.35rem;justify-content:center}
+.mess-upload-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(124,29,29,.04)}
+.mess-upload-btn svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.mess-template-btn{background:none;border:1px solid var(--rule);border-radius:8px;padding:.42rem .65rem;font-size:.62rem;font-family:'Outfit',sans-serif;font-weight:400;color:var(--ink-3);cursor:pointer;transition:border-color .2s,color .2s;white-space:nowrap}
+.mess-template-btn:hover{border-color:var(--ink-2);color:var(--ink-2)}
 
 /* hero spacer — matches fixed hero height so content isn't hidden behind it */
 #hero-spacer { height: 160px; }
@@ -926,7 +914,7 @@ html::before{
       </div>
       <div class="hero-left-text">
         <div class="hero-eyebrow" id="greeting">Good evening</div>
-        <div class="hero-heading">Welcome back,<span class="hero-br"><br></span><em> Aravind.</em></div>
+        <div class="hero-heading">Welcome back, <span class="hero-br"><br></span><em>Aravind.</em></div>
       </div>
     </div>
     <div class="hero-right">
@@ -1117,6 +1105,14 @@ html::before{
       </div>
     </div>
     </div><!-- /mess-section -->
+    <div class="mess-upload-row">
+      <button class="mess-upload-btn" onclick="document.getElementById('mess-file-input').click()">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Upload menu
+      </button>
+      <button class="mess-template-btn" onclick="downloadMessTemplate()">Template ↓</button>
+      <input type="file" id="mess-file-input" accept=".json" style="display:none" onchange="handleMessUpload(event)">
+    </div>
 
     <!-- UPCOMING SECTION -->
     <div id="upcoming-section-wrap" style="display:none">
@@ -2248,7 +2244,13 @@ function fillCourseDeadlines() {
 /* ── MESS MENU DATA & ENGINE ── */
 (function(){
 
-const MESS = {
+// Load any saved override from localStorage
+function loadSavedMess(){
+  try{ var s=localStorage.getItem('nlsiu_mess_data'); if(s) return JSON.parse(s); }catch(e){}
+  return null;
+}
+
+let MESS = {
   "2026-03-23": {
     breakfast: {
       name:"Breakfast", time:"07:30–09:30",
@@ -2744,6 +2746,19 @@ window.closeMessOutside = function(e) {
   if (e.target === document.getElementById('mess-overlay')) closeMess();
 };
 
+// Merge any saved mess data on init
+(function(){ var saved=loadSavedMess(); if(saved) Object.assign(MESS, saved); })();
+
+// Expose update function so upload handler (outside IIFE) can call it
+window._updateMESS = function(newData){
+  Object.assign(MESS, newData);
+  try{ localStorage.setItem('nlsiu_mess_data', JSON.stringify(newData)); }catch(e){}
+  renderMessCard();
+};
+
+// Expose renderMessCard globally for upload feedback
+window._renderMessCard = renderMessCard;
+
 })();
 
 
@@ -2786,44 +2801,104 @@ function deleteResourceFromModal(idx){
 }
 
 
-// Sync hero spacer and --hero-h using ResizeObserver for smooth real-time tracking
-(function(){
-  var hero   = document.querySelector('.hero');
+// ── HERO SPACER + SCROLL SHRINK ──
+// Sets --hero-h and syncs the spacer div to the hero's live height
+function syncHeroSpacer(){
+  var hero = document.querySelector('.hero');
   var spacer = document.getElementById('hero-spacer');
+  if(!hero || !spacer) return;
+  var h = hero.offsetHeight;
+  spacer.style.height = h + 'px';
+  document.documentElement.style.setProperty('--hero-h', h + 'px');
+}
 
-  function setHeroH(h){
-    if(spacer) spacer.style.height = h + 'px';
-    document.documentElement.style.setProperty('--hero-h', h + 'px');
+// Smoothly animate the spacer height alongside the CSS transition
+// by polling offsetHeight every rAF frame for the duration of the transition
+function animateSpacer(durationMs){
+  var spacer = document.getElementById('hero-spacer');
+  if(!spacer) return;
+  var t0 = performance.now();
+  function step(now){
+    var hero = document.querySelector('.hero');
+    if(hero && spacer){
+      var h = hero.offsetHeight;
+      spacer.style.height = h + 'px';
+      document.documentElement.style.setProperty('--hero-h', h + 'px');
+    }
+    if(now - t0 < durationMs) requestAnimationFrame(step);
   }
+  requestAnimationFrame(step);
+}
 
-  // Initial sync
-  function syncOnce(){
-    if(hero) setHeroH(hero.offsetHeight);
-  }
-  window.addEventListener('load', syncOnce);
-  window.addEventListener('resize', syncOnce);
+window.addEventListener('load', syncHeroSpacer);
+window.addEventListener('resize', syncHeroSpacer);
 
-  // ResizeObserver keeps spacer perfectly in sync on every animation frame
-  // as the hero transitions between expanded and shrunk states
-  if(hero && typeof ResizeObserver !== 'undefined'){
-    new ResizeObserver(function(entries){
-      if(entries[0]) setHeroH(entries[0].contentRect.height);
-    }).observe(hero);
-  }
-
-  // Scroll handler — just toggles the class, ResizeObserver does the rest
+// Scroll shrink handler
+(function(){
   var THRESHOLD = 30;
-  var ticking   = false;
+  var TRANSITION_MS = 380;
+  var ticking = false;
   function onScroll(){
     if(ticking) return;
     ticking = true;
     requestAnimationFrame(function(){
-      if(hero) hero.classList.toggle('scrolled', window.scrollY > THRESHOLD);
+      var hero = document.querySelector('.hero');
+      if(!hero){ ticking = false; return; }
+      var shouldShrink = window.scrollY > THRESHOLD;
+      var isShrunk = hero.classList.contains('scrolled');
+      if(shouldShrink !== isShrunk){
+        hero.classList.toggle('scrolled', shouldShrink);
+        animateSpacer(TRANSITION_MS);
+      }
       ticking = false;
     });
   }
   window.addEventListener('scroll', onScroll, {passive:true});
 })();
+
+// ── MESS MENU UPLOAD ──
+window.handleMessUpload = function(e){
+  var file = e.target.files[0];
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev){
+    try{
+      var data = JSON.parse(ev.target.result);
+      // Basic validation: must be an object with at least one YYYY-MM-DD key
+      var keys = Object.keys(data);
+      var valid = keys.length > 0 && keys.every(function(k){ return /^\d{4}-\d{2}-\d{2}$/.test(k); });
+      if(!valid) throw new Error('bad format');
+      window._updateMESS(data);
+      // Brief visual feedback on the upload button
+      var btn = document.querySelector('.mess-upload-btn');
+      if(btn){ var orig=btn.innerHTML; btn.innerHTML='✓ Updated'; btn.style.color='#6b9e6b'; btn.style.borderColor='#6b9e6b'; setTimeout(function(){ btn.innerHTML=orig; btn.style.color=''; btn.style.borderColor=''; },2000); }
+    }catch(err){
+      alert('Could not read the file. Make sure it is a valid mess menu JSON.\n\nTip: click "Template ↓" to download the correct format.');
+    }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+};
+
+window.downloadMessTemplate = function(){
+  var template = {};
+  var today = new Date();
+  var MEAL_DEFAULTS = {
+    breakfast:{ name:'Breakfast', time:'07:30–09:30', sections:{ 'Main':['Item 1','Item 2'], 'Sambar':['Sambar'], 'Chutney':['Coconut Chutney'], 'Takeaway':['Veg Sandwich','Egg Sandwich'], 'Sides':['Bread/Butter/Jam','Tea/Coffee'], 'Extras':['Bournvita/Horlicks/Hot Chocolate/Milk','Cornflakes/Chocos','Boiled Egg'] } },
+    lunch:{ name:'Lunch', time:'12:30–14:30', sections:{ 'Breads':['Chapati'], 'Veg Dry':['Dish Name'], 'Dal':['Dal Name'], 'Sambar':['Sambar'], 'Rice':['White Rice'], 'Accompaniments':['Salad','Papad/Pickle','Curd'] } },
+    snacks:{ name:'Evening Snacks', time:'16:00–18:00', sections:{ 'Snack':['Snack Item'], 'Drinks':['Tea/Coffee','Juice'], 'Extras':['Bournvita/Horlicks','Hot Chocolate/Milk','Cornflakes/Chocos'] } },
+    dinner:{ name:'Dinner', time:'19:00–21:00', sections:{ 'Breads':['Chapati'], 'Veg':['Dish Name'], 'Dal':['Dal Name'], 'Rice':['White Rice'], 'Accompaniments':['Salad','Papad/Pickle','Curd'] } }
+  };
+  for(var i=0; i<7; i++){
+    var d = new Date(today); d.setDate(d.getDate()+i);
+    var key = d.toISOString().slice(0,10);
+    template[key] = JSON.parse(JSON.stringify(MEAL_DEFAULTS));
+  }
+  var blob = new Blob([JSON.stringify(template, null, 2)], {type:'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a'); a.href=url; a.download='mess-menu.json'; a.click();
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+};
 
 </script>
 
