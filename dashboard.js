@@ -88,6 +88,7 @@
     const overlay = document.getElementById('ambient-overlay');
     if (!overlay) return;
     overlay.classList.add('open');
+    document.body.classList.add('dash-open');
     document.body.style.overflow = 'hidden';
     initDashboard();
   }
@@ -96,6 +97,7 @@
     const overlay = document.getElementById('ambient-overlay');
     if (!overlay) return;
     overlay.classList.remove('open');
+    document.body.classList.remove('dash-open');
     document.body.style.overflow = '';
   }
 
@@ -377,7 +379,11 @@
   };
 
   function todayKey() {
-    return new Date().toISOString().slice(0, 10);
+    const n = new Date();
+    const y = n.getFullYear();
+    const m = String(n.getMonth() + 1).padStart(2, '0');
+    const d = String(n.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
   }
 
   function loadMess() {
