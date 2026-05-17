@@ -84,12 +84,22 @@
   /* ─────────────────────────────────────────────────────
      OPEN / CLOSE
   ───────────────────────────────────────────────────── */
+  const DASH_THEME = '#0f0507';
+  const PORTAL_THEME = '#7c1d1d';
+
+  function setBrowserThemeColor(color) {
+    document.querySelectorAll('meta[name="theme-color"]').forEach(m => {
+      m.setAttribute('content', color);
+    });
+  }
+
   function openDashboard() {
     const overlay = document.getElementById('ambient-overlay');
     if (!overlay) return;
     overlay.classList.add('open');
     document.body.classList.add('dash-open');
     document.body.style.overflow = 'hidden';
+    setBrowserThemeColor(DASH_THEME);
     initDashboard();
   }
 
@@ -99,6 +109,7 @@
     overlay.classList.remove('open');
     document.body.classList.remove('dash-open');
     document.body.style.overflow = '';
+    setBrowserThemeColor(PORTAL_THEME);
   }
 
   /* ─────────────────────────────────────────────────────
