@@ -63,18 +63,11 @@ body.dash-open html::before {
   background: var(--d-bg);
 }
 body.dash-open .hero {
-  background: var(--d-bg);
-  border-bottom-color: var(--d-border);
-  visibility: hidden;
-  transition: background 0.35s ease, border-color 0.35s ease, visibility 0s linear 0.4s;
+  display: none !important;
 }
-body.dash-open .hero,
-body.dash-open .hero * {
-  pointer-events: none;
-}
-body.dash-open .hero::before,
-body.dash-open .hero::after {
-  opacity: 0.35;
+body.dash-open #hero-spacer {
+  height: 0 !important;
+  overflow: hidden;
 }
 body.dash-open #ambient-trigger {
   opacity: 0;
@@ -118,10 +111,10 @@ body.dash-open #ambient-trigger {
   min-width: 0;
 }
 .d-widget:nth-child(1) { grid-column: 1; grid-row: 1; }
-.d-widget:nth-child(2) { grid-column: 1; grid-row: 2; }
-.d-widget:nth-child(3) { grid-column: 1; grid-row: 3; }
+.d-widget:nth-child(2) { grid-column: 1; grid-row: 2; align-self: start; }
+.d-widget:nth-child(3) { grid-column: 2; grid-row: 3; align-self: start; }
 .d-widget:nth-child(4) { grid-column: 2; grid-row: 1; align-self: start; }
-.d-widget:nth-child(5) { grid-column: 2; grid-row: 2 / span 2; align-self: stretch; }
+.d-widget:nth-child(5) { grid-column: 2; grid-row: 2; align-self: start; }
 
 #ambient-overlay.open .d-widget:nth-child(1) { opacity:1; transform:translateY(0); transition-delay:0.05s; }
 #ambient-overlay.open .d-widget:nth-child(2) { opacity:1; transform:translateY(0); transition-delay:0.10s; }
@@ -129,23 +122,31 @@ body.dash-open #ambient-trigger {
 #ambient-overlay.open .d-widget:nth-child(4) { opacity:1; transform:translateY(0); transition-delay:0.12s; }
 #ambient-overlay.open .d-widget:nth-child(5) { opacity:1; transform:translateY(0); transition-delay:0.18s; }
 
-/* Compact side panels — schedule & deadlines at a glance */
+/* Compact side panels — deadlines, schedule & mess at a glance */
+.d-widget:nth-child(3) .d-mess-widget,
 .d-widget:nth-child(4) .d-deadlines-widget,
 .d-widget:nth-child(5) .d-schedule-widget {
-  max-height: min(38vh, 280px);
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--d-border-2) transparent;
 }
+.d-widget:nth-child(3) .d-mess-widget::-webkit-scrollbar,
 .d-widget:nth-child(4) .d-deadlines-widget::-webkit-scrollbar,
 .d-widget:nth-child(5) .d-schedule-widget::-webkit-scrollbar { width: 3px; }
+.d-widget:nth-child(3) .d-mess-widget::-webkit-scrollbar-thumb,
 .d-widget:nth-child(4) .d-deadlines-widget::-webkit-scrollbar-thumb,
 .d-widget:nth-child(5) .d-schedule-widget::-webkit-scrollbar-thumb {
   background: var(--d-border-2);
   border-radius: 3px;
 }
+.d-widget:nth-child(3) .d-mess-widget {
+  max-height: min(26vh, 200px);
+}
+.d-widget:nth-child(4) .d-deadlines-widget {
+  max-height: min(30vh, 230px);
+}
 .d-widget:nth-child(5) .d-schedule-widget {
-  max-height: min(46vh, 340px);
+  max-height: min(30vh, 230px);
 }
 
 /* ── Widget card base ── */
@@ -184,7 +185,7 @@ body.dash-open #ambient-trigger {
 ══════════════════════════════════ */
 .d-time-widget {
   text-align: center;
-  padding: 1.6rem 1.25rem 1.4rem;
+  padding: 2rem 1.5rem 1.85rem;
 }
 .d-greeting {
   font-family: 'Cormorant Garamond', serif;
@@ -193,15 +194,17 @@ body.dash-open #ambient-trigger {
   font-style: italic;
   color: var(--d-ink-2);
   letter-spacing: 0.04em;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.65rem;
+  padding: 0 0.25rem;
 }
 .d-clock {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(4rem, 14vw, 6.5rem);
   font-weight: 300;
   color: var(--d-ink);
-  line-height: 1;
+  line-height: 1.05;
   letter-spacing: -0.02em;
+  padding: 0.15rem 0.5rem 0.1rem;
 }
 .d-clock-ampm {
   font-size: 0.38em;
@@ -211,14 +214,17 @@ body.dash-open #ambient-trigger {
   text-transform: uppercase;
   vertical-align: super;
   margin-left: 0.15em;
+  padding-top: 0.05em;
 }
 .d-date {
-  margin-top: 0.55rem;
+  margin-top: 0.85rem;
+  padding: 0 0.5rem 0.2rem;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.68rem;
   color: var(--d-ink-3);
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  line-height: 1.5;
 }
 
 /* ══════════════════════════════════
@@ -479,11 +485,12 @@ body.dash-open #ambient-trigger {
    4. DEADLINES WIDGET
 ══════════════════════════════════ */
 .d-deadlines-widget {
-  padding: 1.2rem 1.4rem;
+  padding: 1.15rem 1.25rem 1.3rem;
 }
 .d-dl-list {
   display: flex;
   flex-direction: column;
+  padding-bottom: 0.1rem;
 }
 .d-dl-item {
   display: flex;
@@ -494,7 +501,10 @@ body.dash-open #ambient-trigger {
   animation: dFadeUp 0.3s ease both;
   opacity: 0;
 }
-.d-dl-item:last-child { border-bottom: none; padding-bottom: 0; }
+.d-dl-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0.35rem;
+}
 
 @keyframes dFadeUp {
   from { opacity: 0; transform: translateY(6px); }
@@ -836,13 +846,14 @@ body.dash-open #ambient-trigger {
     grid-column: 1;
     grid-row: auto;
   }
-  /* Surface schedule & deadlines before mess on narrow screens */
+  /* Surface schedule, deadlines & mess before timer stack ends */
   .d-widget:nth-child(3) { order: 5; }
   .d-widget:nth-child(4) { order: 3; }
   .d-widget:nth-child(5) { order: 4; }
+  .d-widget:nth-child(3) .d-mess-widget,
   .d-widget:nth-child(4) .d-deadlines-widget,
   .d-widget:nth-child(5) .d-schedule-widget {
-    max-height: min(36vh, 260px);
+    max-height: min(32vh, 220px);
   }
 }
 
