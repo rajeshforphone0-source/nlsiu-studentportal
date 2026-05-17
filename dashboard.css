@@ -1,0 +1,766 @@
+/* ═══════════════════════════════════════════════════════
+   NLSIU Ambient Dashboard — dashboard.css
+   Modular: edit this file to restyle without touching index.html or dashboard.js
+   ═══════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── Tokens ── */
+:root {
+  --d-bg:         #0f0507;
+  --d-surface:    rgba(255,255,255,0.04);
+  --d-surface-2:  rgba(255,255,255,0.07);
+  --d-border:     rgba(255,255,255,0.08);
+  --d-border-2:   rgba(255,255,255,0.13);
+  --d-ink:        rgba(255,255,255,0.92);
+  --d-ink-2:      rgba(255,255,255,0.55);
+  --d-ink-3:      rgba(255,255,255,0.30);
+  --d-accent:     #c0524a;
+  --d-accent-dim: rgba(192,82,74,0.18);
+  --d-gold:       rgba(200,175,120,0.85);
+  --d-r:          16px;
+  --d-r-sm:       10px;
+  --d-gap:        1rem;
+}
+
+/* ── Overlay shell ── */
+#ambient-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9900;
+  background: var(--d-bg);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s cubic-bezier(0.4,0,0.2,1);
+  overflow: hidden;
+  font-family: 'Outfit', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+#ambient-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Subtle background grain texture */
+#ambient-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(124,29,29,0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 100%, rgba(124,29,29,0.10) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Inner scroll container ── */
+.d-inner {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 1.5rem 7rem;
+  overflow-y: auto;
+  scrollbar-width: none;
+  gap: var(--d-gap);
+}
+.d-inner::-webkit-scrollbar { display: none; }
+
+/* ── Entry animation ── */
+.d-widget {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  width: 100%;
+  max-width: 520px;
+}
+#ambient-overlay.open .d-widget:nth-child(1) { opacity:1; transform:translateY(0); transition-delay:0.05s; }
+#ambient-overlay.open .d-widget:nth-child(2) { opacity:1; transform:translateY(0); transition-delay:0.10s; }
+#ambient-overlay.open .d-widget:nth-child(3) { opacity:1; transform:translateY(0); transition-delay:0.15s; }
+#ambient-overlay.open .d-widget:nth-child(4) { opacity:1; transform:translateY(0); transition-delay:0.20s; }
+#ambient-overlay.open .d-widget:nth-child(5) { opacity:1; transform:translateY(0); transition-delay:0.25s; }
+#ambient-overlay.open .d-widget:nth-child(6) { opacity:1; transform:translateY(0); transition-delay:0.30s; }
+
+/* ── Widget card base ── */
+.d-card {
+  background: var(--d-surface);
+  border: 1px solid var(--d-border);
+  border-radius: var(--d-r);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+}
+
+/* ── Section label ── */
+.d-label {
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--d-ink-3);
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.d-label::before {
+  content: '';
+  display: inline-block;
+  width: 12px;
+  height: 1px;
+  background: var(--d-accent);
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════
+   1. TIME WIDGET
+══════════════════════════════════ */
+.d-time-widget {
+  text-align: center;
+  padding: 2.4rem 1.5rem 2rem;
+}
+.d-greeting {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.9rem;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--d-ink-2);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+.d-clock {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(4rem, 14vw, 6.5rem);
+  font-weight: 300;
+  color: var(--d-ink);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.d-clock-ampm {
+  font-size: 0.38em;
+  font-weight: 400;
+  color: var(--d-ink-2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  vertical-align: super;
+  margin-left: 0.15em;
+}
+.d-date {
+  margin-top: 0.55rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--d-ink-3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ══════════════════════════════════
+   2. FOCUS TIMER WIDGET
+══════════════════════════════════ */
+.d-timer-widget {
+  padding: 1.2rem 1.4rem;
+}
+.d-timer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+.d-timer-mode-pills {
+  display: flex;
+  gap: 0.35rem;
+}
+.d-timer-pill {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  padding: 0.22rem 0.65rem;
+  border-radius: 20px;
+  border: 1px solid var(--d-border-2);
+  color: var(--d-ink-3);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: 'Outfit', sans-serif;
+}
+.d-timer-pill.active {
+  background: var(--d-accent-dim);
+  border-color: var(--d-accent);
+  color: var(--d-ink);
+}
+.d-timer-pill:hover:not(.active) {
+  color: var(--d-ink-2);
+  border-color: var(--d-border-2);
+}
+
+.d-timer-display {
+  text-align: center;
+  padding: 0.5rem 0 0.8rem;
+}
+.d-timer-ring-wrap {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 0.75rem;
+}
+.d-timer-ring-svg {
+  width: 110px;
+  height: 110px;
+  transform: rotate(-90deg);
+}
+.d-ring-track {
+  fill: none;
+  stroke: var(--d-border);
+  stroke-width: 3;
+}
+.d-ring-progress {
+  fill: none;
+  stroke: var(--d-accent);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+.d-timer-time {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.55rem;
+  font-weight: 400;
+  color: var(--d-ink);
+  letter-spacing: 0.02em;
+}
+
+/* Pomodoro session dots */
+.d-pomo-dots {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  margin-bottom: 0.6rem;
+}
+.d-pomo-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--d-border-2);
+  transition: background 0.2s;
+}
+.d-pomo-dot.done {
+  background: var(--d-accent);
+}
+
+/* Countdown custom input */
+.d-countdown-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-bottom: 0.6rem;
+}
+.d-dur-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--d-border-2);
+  background: transparent;
+  color: var(--d-ink-2);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  font-family: 'Outfit', sans-serif;
+}
+.d-dur-btn:hover {
+  border-color: var(--d-accent);
+  color: var(--d-ink);
+}
+.d-dur-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--d-ink-2);
+  min-width: 2.5rem;
+  text-align: center;
+}
+
+.d-timer-controls {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+.d-timer-btn {
+  padding: 0.42rem 1.1rem;
+  border-radius: 8px;
+  border: 1px solid var(--d-border-2);
+  background: var(--d-surface-2);
+  color: var(--d-ink-2);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.d-timer-btn.primary {
+  background: var(--d-accent);
+  border-color: var(--d-accent);
+  color: #fff;
+}
+.d-timer-btn:hover:not(.primary) {
+  border-color: var(--d-border-2);
+  color: var(--d-ink);
+}
+.d-timer-btn.primary:hover {
+  background: #b3453d;
+}
+
+.d-pomo-phase {
+  font-size: 0.6rem;
+  color: var(--d-ink-3);
+  text-align: center;
+  margin-top: 0.4rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  min-height: 0.9rem;
+}
+
+/* ══════════════════════════════════
+   3. MESS MENU WIDGET
+══════════════════════════════════ */
+.d-mess-widget {
+  padding: 1.2rem 1.4rem;
+}
+.d-mess-meals {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.d-mess-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  padding: 0.7rem 0.9rem;
+  border-radius: var(--d-r-sm);
+  background: var(--d-surface-2);
+  border: 1px solid var(--d-border);
+  transition: border-color 0.2s;
+}
+.d-mess-row.live {
+  border-color: var(--d-accent);
+  background: var(--d-accent-dim);
+}
+.d-mess-row.next {
+  border-color: var(--d-border-2);
+}
+.d-mess-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 1px;
+}
+.d-mess-info { flex: 1; min-width: 0; }
+.d-mess-name {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--d-ink);
+}
+.d-mess-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--d-ink-3);
+  margin-top: 0.12rem;
+}
+.d-mess-items {
+  font-size: 0.67rem;
+  color: var(--d-ink-2);
+  margin-top: 0.25rem;
+  line-height: 1.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.d-mess-badge {
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.12rem 0.4rem;
+  border-radius: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.d-mess-badge.live {
+  background: var(--d-accent);
+  color: white;
+}
+.d-mess-badge.next {
+  background: var(--d-border-2);
+  color: var(--d-ink-3);
+}
+.d-mess-empty {
+  font-size: 0.72rem;
+  color: var(--d-ink-3);
+  text-align: center;
+  padding: 1rem 0;
+}
+
+/* ══════════════════════════════════
+   4. DEADLINES WIDGET
+══════════════════════════════════ */
+.d-deadlines-widget {
+  padding: 1.2rem 1.4rem;
+}
+.d-dl-list {
+  display: flex;
+  flex-direction: column;
+}
+.d-dl-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--d-border);
+  animation: dFadeUp 0.3s ease both;
+  opacity: 0;
+}
+.d-dl-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+@keyframes dFadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.d-dl-date-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 34px;
+  flex-shrink: 0;
+}
+.d-dl-day-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--d-ink);
+  line-height: 1;
+}
+.d-dl-day-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.48rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--d-ink-3);
+  margin-top: 1px;
+}
+.d-dl-day-month {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.46rem;
+  color: var(--d-ink-3);
+  opacity: 0.6;
+}
+.d-dl-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+.d-dl-dot.deadline { background: var(--d-accent); }
+.d-dl-dot.office   { background: var(--d-gold); }
+.d-dl-info { flex: 1; min-width: 0; }
+.d-dl-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--d-ink);
+  line-height: 1.35;
+}
+.d-dl-course {
+  font-size: 0.63rem;
+  color: var(--d-ink-3);
+  margin-top: 0.1rem;
+  font-weight: 300;
+}
+.d-dl-time {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.57rem;
+  color: var(--d-ink-3);
+  margin-top: 0.18rem;
+}
+.d-dl-badge {
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 0.2rem;
+}
+.d-dl-badge.deadline {
+  background: rgba(192,82,74,0.15);
+  color: var(--d-accent);
+}
+.d-dl-badge.office {
+  background: rgba(200,175,120,0.12);
+  color: var(--d-gold);
+}
+.d-dl-today-pill {
+  font-size: 0.48rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--d-accent);
+  color: white;
+  padding: 0.06rem 0.3rem;
+  border-radius: 20px;
+  margin-left: 0.3rem;
+  vertical-align: middle;
+}
+.d-empty {
+  font-size: 0.7rem;
+  color: var(--d-ink-3);
+  text-align: center;
+  padding: 1rem 0;
+  line-height: 1.6;
+}
+.d-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.68rem;
+  color: var(--d-ink-3);
+  padding: 0.5rem 0;
+}
+.d-spinner {
+  width: 13px;
+  height: 13px;
+  border: 1.5px solid var(--d-border-2);
+  border-top-color: var(--d-ink-2);
+  border-radius: 50%;
+  animation: dSpin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes dSpin { to { transform: rotate(360deg); } }
+
+/* ══════════════════════════════════
+   5. CLASS SCHEDULE WIDGET
+══════════════════════════════════ */
+.d-schedule-widget {
+  padding: 1.2rem 1.4rem;
+}
+.d-sched-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.d-sched-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--d-border);
+  animation: dFadeUp 0.3s ease both;
+  opacity: 0;
+}
+.d-sched-item:last-child { border-bottom: none; padding-bottom: 0; }
+.d-sched-time-col {
+  min-width: 56px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+.d-sched-start {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--d-ink-2);
+  font-weight: 500;
+}
+.d-sched-end {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  color: var(--d-ink-3);
+  margin-top: 1px;
+}
+.d-sched-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  flex-shrink: 0;
+  margin-top: 5px;
+  transition: background 0.2s;
+}
+.d-sched-dot.ongoing {
+  background: var(--d-accent);
+  box-shadow: 0 0 6px rgba(192,82,74,0.5);
+  animation: dPulse 1.5s infinite;
+}
+@keyframes dPulse {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+.d-sched-info { flex: 1; min-width: 0; }
+.d-sched-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--d-ink);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.d-sched-loc {
+  font-size: 0.62rem;
+  color: var(--d-ink-3);
+  margin-top: 0.1rem;
+  font-weight: 300;
+}
+.d-sched-now-pill {
+  font-size: 0.48rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--d-accent);
+  color: white;
+  padding: 0.1rem 0.35rem;
+  border-radius: 20px;
+  margin-left: 0.35rem;
+  vertical-align: middle;
+}
+.d-sched-day-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--d-ink-3);
+  margin-bottom: 0.55rem;
+  opacity: 0.7;
+}
+
+/* ══════════════════════════════════
+   FLOATING TRIGGER BUTTON (in index.html)
+══════════════════════════════════ */
+#ambient-trigger {
+  position: fixed;
+  bottom: 1.75rem;
+  right: 1.75rem;
+  z-index: 500;
+  /* Liquid glass */
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 50px;
+  padding: 0.5rem 1.05rem 0.5rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  box-shadow:
+    0 4px 20px rgba(0,0,0,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s;
+  color: rgba(255,255,255,0.85);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+#ambient-trigger:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 8px 28px rgba(0,0,0,0.24),
+    inset 0 1px 0 rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.15);
+}
+#ambient-trigger:active {
+  transform: translateY(0);
+}
+#ambient-trigger svg {
+  width: 15px;
+  height: 15px;
+  stroke: rgba(255,255,255,0.75);
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ══════════════════════════════════
+   CLOSE / BACK BUTTON (inside overlay)
+══════════════════════════════════ */
+.d-topbar {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.5rem 0;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+.d-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--d-surface-2);
+  border: 1px solid var(--d-border-2);
+  border-radius: 8px;
+  padding: 0.35rem 0.75rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--d-ink-2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.d-back-btn:hover {
+  color: var(--d-ink);
+  border-color: var(--d-border-2);
+  background: var(--d-surface);
+}
+.d-back-btn svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.d-portal-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.78rem;
+  font-style: italic;
+  color: var(--d-ink-3);
+  letter-spacing: 0.04em;
+}
+
+/* ══════════════════════════════════
+   CHIME / DONE STATE
+══════════════════════════════════ */
+.d-timer-done-flash {
+  animation: dFlash 0.5s ease 3;
+}
+@keyframes dFlash {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.3; }
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════ */
+@media (max-width: 480px) {
+  .d-inner { padding: 2rem 1rem 6rem; }
+  .d-clock { font-size: clamp(3.5rem, 18vw, 5rem); }
+  .d-topbar { padding: 0.9rem 1rem 0; }
+}
